@@ -15,18 +15,20 @@ namespace PrimeNumberGeneration
 
             do
             {
-                BigInteger number = 0;
+                string prime2 = "";
+                BigInteger prime10 = 0;
                 bool isPrime = false;
 
                 do
                 {
-                    number = Ge
-                    isPrime = RabinMiller(number, 5, random);
-                    Console.WriteLine(number);
+                    prime2 = GenerateNumber(50, random);
+                    prime10 = Convert.ToInt64(prime2, 2);
+                    isPrime = RabinMiller(prime10, 5, random);
                 }
                 while (!isPrime);
-                Console.WriteLine(number);
-                Console.WriteLine(isPrime);
+                Console.WriteLine("Binary: " + prime2);
+                Console.WriteLine("Decimal: " + prime10);
+                Console.WriteLine("To generate another prime press any key. Escape to exit");
             }
             while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
