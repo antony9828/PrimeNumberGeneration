@@ -11,30 +11,30 @@ namespace PrimeNumberGeneration
     {
         static void Main(string[] args)
         {
+            Random random = new Random();
+
             do
             {
-                string prime2 = "";
-                BigInteger prime10 = 0;
+                BigInteger number = 0;
                 bool isPrime = false;
-                prime2 = GenerateNumber(10);
-                prime10 = Convert.ToInt64(prime2, 2);
-                while (!isPrime)
+
+                do
                 {
-                    isPrime = RabinMiller(prime10, 1);
-                    Console.WriteLine(prime10);
-                    prime10 += 2;
+                    number = Ge
+                    isPrime = RabinMiller(number, 5, random);
+                    Console.WriteLine(number);
                 }
-                Console.WriteLine(prime2);
-                Console.WriteLine(prime10 - 2);
+                while (!isPrime);
+                Console.WriteLine(number);
                 Console.WriteLine(isPrime);
             }
             while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
 
-        private static string GenerateNumber(int bits)
+        private static string GenerateNumber(int bits, Random random)
         {
             string number = "1";
-            Random random = new Random();
+       
             for (int i = 0; i < ( bits - 2); i++)
             {
                 string part = random.Next(0, 2).ToString();
@@ -45,7 +45,7 @@ namespace PrimeNumberGeneration
             return number;
         }
 
-        public static bool RabinMiller(BigInteger n, int k)
+        public static bool RabinMiller(BigInteger n, int k, Random r)
         {
             if (n < 2)
             {
@@ -60,12 +60,11 @@ namespace PrimeNumberGeneration
             {
                 s >>= 1;
             }
-            Random r = new Random();
             for (int i = 0; i < k; i++)
             {
                 BigInteger a = RandomBigInteger(n - 1) + 1;
                 BigInteger temp = s;
-                BigInteger mod = ModuloPower(a, temp, n);
+                BigInteger mod = BigInteger.ModPow(a, temp, n);   //ModuloPower(a, temp, n);
                 while (temp != n - 1 && mod != 1 && mod != n - 1)
                 {
                     mod = (mod * mod) % n;
@@ -79,14 +78,7 @@ namespace PrimeNumberGeneration
             return true;
         }
 
-        static BigInteger ModuloPower(BigInteger a, BigInteger b, BigInteger n)
-        {
-            // return (a^b)%n
-            BigInteger res = 1;
-            for (int i = 0; i < b; ++i)
-                res = (res * a) % n;
-            return res;
-        }
+    
 
         static Random rand = new Random();
 
